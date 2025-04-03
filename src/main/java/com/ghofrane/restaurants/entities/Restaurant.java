@@ -14,8 +14,11 @@ public class Restaurant {
     private String nomRestaurant;
     private String adresse;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-
-    private Date dateOuverture;
+    
+    @ManyToOne
+    private Type type; 
+  
+	private Date dateOuverture;
     private Double note;
 	public Restaurant() {
 		super();
@@ -63,7 +66,12 @@ public class Restaurant {
 		return "Restaurant [idRestaurant=" + idRestaurant + ", nomRestaurant=" + nomRestaurant + ", adresse=" + adresse
 				+ ", dateOuverture=" + dateOuverture + ", note=" + note + "]";
 	}
-	
+	public Type getType() {
+		return type;
+	}
+	public void setType(Type type) {
+		this.type = type;
+	}
     
     
 }

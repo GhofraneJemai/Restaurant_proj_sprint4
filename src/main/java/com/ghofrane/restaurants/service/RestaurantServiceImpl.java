@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
 import com.ghofrane.restaurants.entities.Restaurant;
+import com.ghofrane.restaurants.entities.Type;
 import com.ghofrane.restaurants.repos.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,40 @@ public class RestaurantServiceImpl implements RestaurantService {
         // Crée un objet PageRequest avec le numéro de page et la taille de page
         PageRequest pageRequest = PageRequest.of(page, size);
         return restaurantRepository.findAll(pageRequest);
+    }
+    @Override
+    public List<Restaurant> findByNomRestaurant(String nom) {
+        return restaurantRepository.findByNomRestaurant(nom);
+    }
+
+    @Override
+    public List<Restaurant> findByNomRestaurantContains(String nom) {
+        return restaurantRepository.findByNomRestaurantContains(nom);
+    }
+
+    @Override
+    public List<Restaurant> findByType(Type type) {
+        return restaurantRepository.findByType(type);
+    }
+
+    @Override
+    public List<Restaurant> findByTypeId(Long id) {
+        return restaurantRepository.findByTypeId(id);
+    }
+
+    @Override
+    public List<Restaurant> findByNomRestaurantAndNote(String nom, Double note) {
+        return restaurantRepository.findByNomRestaurantAndNote(nom, note);
+    }
+
+    @Override
+    public List<Restaurant> findByOrderByNomRestaurantAsc() {
+        return restaurantRepository.findByOrderByNomRestaurantAsc();
+    }
+
+    @Override
+    public List<Restaurant> trierRestaurantsNomsTypes() {
+        return restaurantRepository.trierRestaurantsNomsTypes();
     }
 
 }
