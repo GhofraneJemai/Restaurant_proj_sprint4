@@ -8,10 +8,14 @@ import org.springframework.data.domain.Page;
 import com.ghofrane.restaurants.entities.Restaurant;
 import com.ghofrane.restaurants.entities.Type;
 import com.ghofrane.restaurants.repos.RestaurantRepository;
+import com.ghofrane.restaurants.repos.TypeRepository;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
+	@Autowired
+	TypeRepository typeRepository;
 
     @Autowired
     RestaurantRepository restaurantRepository;
@@ -85,6 +89,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<Restaurant> trierRestaurantsNomsTypes() {
         return restaurantRepository.trierRestaurantsNomsTypes();
+    }
+    @Override
+    public List<Type> getAllTypes() {
+        return typeRepository.findAll();
     }
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"xmlns:sec=https://www.thymeleaf.org/thymeleaf-extras-springsecurity6>
 <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
 
 <head>
@@ -22,6 +22,7 @@
 						<th>Adresse</th>
 						<th>Date d'Ouverture</th>
 						<th>Note</th>
+						<th>Type</th>
 					</tr>
 					<tr th:each="r:${restaurants.content}">
 						<td th:text="${r.idRestaurant}"></td>
@@ -29,11 +30,15 @@
 						<td th:text="${r.adresse}"></td>
 						<td th:text="${r.dateOuverture}"></td>
 						<td th:text="${r.note}"></td>
+						<td th:if="${!#strings.isEmpty(r.type)}" th:text="${r.type.nom}"></td>
+						<td th:if="${#strings.isEmpty(r.type)}" th:text="${'Pas de Type'}"></td>
 						
 						
-						<td><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')"
+						<td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')"
 								th:href="@{supprimerRestaurant(id=${r.idRestaurant}, page=${currentPage}, size=${size})}">Supprimer</a>
 						</td>
+						<td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-success"
+						th:href="@{modifierRestaurant(id=${r.idRestaurant},page=${currentPage},size=${size})}">Editer</a></td>
 					</tr>
 				</table>
 				<ul class="nav nav-pills">

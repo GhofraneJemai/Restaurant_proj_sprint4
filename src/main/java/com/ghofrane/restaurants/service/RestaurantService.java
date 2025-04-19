@@ -29,4 +29,7 @@ public interface RestaurantService {
     
     // Méthode pour trier les restaurants par nom (ordre croissant) et par type (ordre décroissant)
     List<Restaurant> trierRestaurantsNomsTypes();
+    
+    List<Type> getAllTypes();
+
 }

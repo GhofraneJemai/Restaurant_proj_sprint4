@@ -1,5 +1,10 @@
 package com.ghofrane.restaurants.entities;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 import jakarta.persistence.*;
 import java.util.Date;
@@ -11,14 +16,23 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRestaurant;
+    
+    @NotNull
+    @Size(min = 3, max = 30)
     private String nomRestaurant;
+    
+    @NotNull
+    @Size(min = 5, max = 50)
     private String adresse;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     
     @ManyToOne
     private Type type; 
-  
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent
 	private Date dateOuverture;
+    @Min(0)
+    @Max(5)
     private Double note;
 	public Restaurant() {
 		super();

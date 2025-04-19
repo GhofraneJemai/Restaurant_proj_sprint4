@@ -31,6 +31,7 @@ public class RestaurantsProjApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+    	/*
         // Création et enregistrement d'un type de restaurant
         Type typeCuisineFrancaise = new Type("Cuisine Française", "Spécialités françaises raffinées");
         typeRepository.save(typeCuisineFrancaise);
@@ -44,6 +45,6 @@ public class RestaurantsProjApplication implements CommandLineRunner {
         
         // Sauvegarde dans la base de données via le repository
         restaurantRepository.save(restaurant1);
-        restaurantRepository.save(restaurant2);
+        restaurantRepository.save(restaurant2);*/
     }
 }
