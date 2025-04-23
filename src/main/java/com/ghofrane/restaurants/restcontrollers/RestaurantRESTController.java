@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.ghofrane.restaurants.dto.RestaurantDTO;
 import com.ghofrane.restaurants.entities.Restaurant;
 import com.ghofrane.restaurants.service.RestaurantService;
 
@@ -18,23 +19,23 @@ public class RestaurantRESTController {
     private RestaurantService restaurantService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Restaurant> getAllRestaurants() {
+    public List<RestaurantDTO> getAllRestaurants() {
         return restaurantService.getAllRestaurants();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Restaurant getRestaurantById(@PathVariable("id") Long id) {
+    public RestaurantDTO getRestaurantById(@PathVariable("id") Long id) {
         return restaurantService.getRestaurant(id);
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public Restaurant createRestaurant(@RequestBody Restaurant restaurant) {
-        return restaurantService.saveRestaurant(restaurant);
+    public RestaurantDTO createRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        return restaurantService.saveRestaurant(restaurantDTO);
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public Restaurant updateRestaurant(@RequestBody Restaurant restaurant) {
-        return restaurantService.updateRestaurant(restaurant);
+    public RestaurantDTO updateRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+        return restaurantService.updateRestaurant(restaurantDTO);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

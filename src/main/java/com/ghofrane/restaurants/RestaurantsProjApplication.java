@@ -1,9 +1,11 @@
 package com.ghofrane.restaurants;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ghofrane.restaurants.entities.Restaurant;
@@ -23,8 +25,7 @@ import java.util.Date;
 @SpringBootApplication
 public class RestaurantsProjApplication implements CommandLineRunner {
 
-    @Autowired
-    private RestaurantService restaurantService;
+    
 
     @Autowired
     RestaurantRepository restaurantRepository;
@@ -79,5 +80,10 @@ public class RestaurantsProjApplication implements CommandLineRunner {
         // Sauvegarde dans la base de données via le repository
         restaurantRepository.save(restaurant1);
         restaurantRepository.save(restaurant2);*/
+    }
+    @Bean
+    public ModelMapper modelMapper()
+    {
+	    return new ModelMapper();
     }
 }

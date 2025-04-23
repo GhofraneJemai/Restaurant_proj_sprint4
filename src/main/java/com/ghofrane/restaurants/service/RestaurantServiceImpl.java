@@ -1,10 +1,15 @@
 package com.ghofrane.restaurants.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
+
+import com.ghofrane.restaurants.dto.RestaurantDTO;
 import com.ghofrane.restaurants.entities.Restaurant;
 import com.ghofrane.restaurants.entities.Type;
 import com.ghofrane.restaurants.repos.RestaurantRepository;
@@ -19,15 +24,18 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+    
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
-    public Restaurant saveRestaurant(Restaurant r) {
-        return restaurantRepository.save(r);
+    public RestaurantDTO saveRestaurant(RestaurantDTO r) {
+        return convertEntityToDto(restaurantRepository.save(convertDtoToEntity(r)));
     }
 
     @Override
-    public Restaurant updateRestaurant(Restaurant r) {
-        return restaurantRepository.save(r);
+    public RestaurantDTO updateRestaurant(RestaurantDTO r) {
+        return convertEntityToDto(restaurantRepository.save(convertDtoToEntity(r)));
     }
 
     @Override
@@ -41,13 +49,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant getRestaurant(Long id) {
-        return restaurantRepository.findById(id).get();
+    public RestaurantDTO getRestaurant(Long id) {
+        return convertEntityToDto(restaurantRepository.findById(id).get());
     }
 
     @Override
-    public List<Restaurant> getAllRestaurants() {
-        return restaurantRepository.findAll();
+    public List<RestaurantDTO> getAllRestaurants() {
+        return restaurantRepository.findAll()
+                .stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
  // Nouvelle méthode pour récupérer les restaurants par page
     @Override
@@ -94,5 +105,53 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Type> getAllTypes() {
         return typeRepository.findAll();
     }
+    /*@Override
+    public RestaurantDTO convertEntityToDto(Restaurant restaurant) {
+    	/*
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+        restaurantDTO.setIdRestaurant(restaurant.getIdRestaurant());
+        restaurantDTO.setNomRestaurant(restaurant.getNomRestaurant());
+        restaurantDTO.setAdresse(restaurant.getAdresse());
+        restaurantDTO.setDateOuverture(restaurant.getDateOuverture());
+        restaurantDTO.setNote(restaurant.getNote());
+        restaurantDTO.setType(restaurant.getType());
+        return restaurantDTO;
+        
+
+        return RestaurantDTO.builder()
+                .idRestaurant(restaurant.getIdRestaurant())
+                .nomRestaurant(restaurant.getNomRestaurant())
+                .adresse(restaurant.getAdresse())
+                .dateOuverture(restaurant.getDateOuverture())
+                .note(restaurant.getNote())
+                .type(restaurant.getType())
+                //.nom(restaurant.getType() != null ? restaurant.getType().getNom() : null)
+                .build();
+        
+    }*/
+    @Override
+    public RestaurantDTO convertEntityToDto(Restaurant restaurant) {
+    	modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(restaurant, RestaurantDTO.class);
+    }
+/*
+    @Override
+    public Restaurant convertDtoToEntity(RestaurantDTO restaurantDto) {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setIdRestaurant(restaurantDto.getIdRestaurant());
+        restaurant.setNomRestaurant(restaurantDto.getNomRestaurant());
+        restaurant.setAdresse(restaurantDto.getAdresse());
+        restaurant.setDateOuverture(restaurantDto.getDateOuverture());
+        restaurant.setNote(restaurantDto.getNote());
+        restaurant.setType(restaurantDto.getType()); // Assure-toi que le type n'est pas null ou instancié correctement
+        return restaurant;
+    }*/
+    @Override
+    public Restaurant convertDtoToEntity(RestaurantDTO restaurantDTO) {
+    	Restaurant restaurant = new Restaurant();
+    	restaurant = modelMapper.map(restaurantDTO, Restaurant.class);
+    	return restaurant;
+    }
+
 
 }

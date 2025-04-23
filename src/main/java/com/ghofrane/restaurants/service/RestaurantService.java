@@ -5,16 +5,23 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 
+import com.ghofrane.restaurants.dto.RestaurantDTO;
 import com.ghofrane.restaurants.entities.Restaurant;
 import com.ghofrane.restaurants.entities.Type;
 
 public interface RestaurantService {
-    Restaurant saveRestaurant(Restaurant r);
-    Restaurant updateRestaurant(Restaurant r);
+	RestaurantDTO saveRestaurant(RestaurantDTO r);
+	RestaurantDTO getRestaurant(Long id);
+    List<RestaurantDTO> getAllRestaurants();
+    
+    
+    
+    
+    
+    RestaurantDTO updateRestaurant(RestaurantDTO r);
     void deleteRestaurant(Restaurant r);
     void deleteRestaurantById(Long id);
-    Restaurant getRestaurant(Long id);
-    List<Restaurant> getAllRestaurants();
+
     Page<Restaurant> getAllRestaurantsParPage(int page, int size) ;
     
     List<Restaurant> findByNomRestaurant(String nom);
@@ -31,5 +38,9 @@ public interface RestaurantService {
     List<Restaurant> trierRestaurantsNomsTypes();
     
     List<Type> getAllTypes();
+    RestaurantDTO convertEntityToDto(Restaurant restaurant);
+    Restaurant convertDtoToEntity(RestaurantDTO restaurantDto);
+
+
 
 }
