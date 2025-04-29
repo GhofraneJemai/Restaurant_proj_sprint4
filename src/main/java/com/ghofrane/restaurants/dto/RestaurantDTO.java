@@ -21,6 +21,6 @@ public class RestaurantDTO {
     private Date dateOuverture;
     private Double note;
     private Type type;
-    private String description;  // Identifiant unique du type
+    private String description;  
     
 }

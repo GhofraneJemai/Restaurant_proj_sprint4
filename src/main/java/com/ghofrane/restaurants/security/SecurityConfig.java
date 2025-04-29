@@ -31,9 +31,9 @@ public class SecurityConfig {
          );
 	 http.authorizeHttpRequests((requests)->requests
 
-	.requestMatchers("/showCreate","/saveProduit").hasAnyAuthority("ADMIN","AGENT")
+	.requestMatchers("/showCreate","/saveRestaurant").hasAnyAuthority("ADMIN","AGENT")
 
-	.requestMatchers("/ListeProduits").hasAnyAuthority("ADMIN","AGENT","USER")
+	.requestMatchers("/ListeRestaurants").hasAnyAuthority("ADMIN","AGENT","USER")
 	.requestMatchers("/login","/webjars/**").permitAll()
 	.anyRequest().authenticated())
 

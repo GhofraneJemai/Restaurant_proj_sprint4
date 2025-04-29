@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.ghofrane.restaurants.dto.RestaurantDTO;
 import com.ghofrane.restaurants.entities.Restaurant;
 import com.ghofrane.restaurants.entities.Type;
 import com.ghofrane.restaurants.service.RestaurantService;
@@ -41,6 +43,7 @@ public class RestaurantController {
         modelMap.addAttribute("restaurants", restaurants);
         modelMap.addAttribute("pages", new int[restaurants.getTotalPages()]);
         modelMap.addAttribute("currentPage", page);
+        modelMap.addAttribute("size", size); // Added size to model for consistency
 
         return "listeRestaurants";
     }
@@ -79,9 +82,10 @@ public class RestaurantController {
         if (restaurant.getIdRestaurant() == null) {
             isNew = true;  // C'est un ajout
         }
+        RestaurantDTO restaurantDTO = restaurantService.convertEntityToDto(restaurant);
 
         // Sauvegarder le restaurant (ajout ou modification)
-        restaurantService.saveRestaurant(restaurant);
+        restaurantService.saveRestaurant(restaurantDTO);
 
         // Logique de redirection après l'ajout ou la modification
         if (isNew) {
@@ -116,7 +120,8 @@ public class RestaurantController {
                                    ModelMap modelMap,
                                    @RequestParam(name = "page", defaultValue = "0") int page,
                                    @RequestParam(name = "size", defaultValue = "2") int size) {
-        Restaurant r = restaurantService.getRestaurant(id);
+    	RestaurantDTO restaurantDTO = restaurantService.getRestaurant(id);
+        Restaurant r = restaurantService.convertDtoToEntity(restaurantDTO);
         List<Type> types = restaurantService.getAllTypes();
 
         modelMap.addAttribute("restaurant", r);
@@ -142,7 +147,8 @@ public class RestaurantController {
         }
 
         // Sauvegarder les modifications
-        restaurantService.saveRestaurant(restaurant);
+        RestaurantDTO restaurantDTO = restaurantService.convertEntityToDto(restaurant);
+        restaurantService.saveRestaurant(restaurantDTO);
 
         // Rester sur la même page après modification
         currentPage = page;
